@@ -7,12 +7,13 @@ to simulate uncertain observations for a Variogram analysis.
 
 """
 import os
+import time
 from uncertainty_framework import MonteCarlo
 import numpy as np
 from skgstat import Variogram
 import pandas as pd
 import plotly.graph_objects as go
-    
+
 PATH = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -104,11 +105,12 @@ def main(data_path=os.path.join(PATH, 'sample.csv'), num_iter=5000, obs_scale=5,
     # run 
     if verbose:
         print('done.\nStarting %d iterations...' % num_iter, end='')
-    
+    t1 = time.time()
     result = mc.run()
+    t2 = time.time()
 
     if verbose:
-        print('done.')
+        print('done. [%s]' % '%.1f%s' % (((t2 - t1) * 1000, 'ms') if t2 - t1 < 4 else (t2 - t1, 'sec')))
 
     # plot the result
     fig = plot(result)
