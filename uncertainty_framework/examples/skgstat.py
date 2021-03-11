@@ -29,7 +29,7 @@ def get_arguments(**kwargs):
     # these will be kept fixed for each run
     args = dict(
         model=kwargs.get('model', 'exponential'),
-        fit_method=kwargs.get('fit_method', 'ml'),
+        fit_method=kwargs.get('fit_method', 'trf'),
         fit_sigma=kwargs.get('fit_sigma'),
         estimator=kwargs.get('estimator', 'matheron'),
         maxlag=kwargs.get('maxlag', 'median'),
@@ -106,7 +106,7 @@ def main(data_path=os.path.join(PATH, 'sample.csv'), num_iter=5000, obs_scale=5,
     if verbose:
         print('done.\nStarting %d iterations...' % num_iter, end='')
     t1 = time.time()
-    result = mc.run()
+    result = mc()
     t2 = time.time()
 
     if verbose:

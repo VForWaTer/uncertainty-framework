@@ -1,3 +1,3 @@
-from uncertainty_framework.monte_carlo import MonteCarlo
+from uncertainty_framework.simulators.monte_carlo import MonteCarlo
 
 __version__ = '0.1.1'

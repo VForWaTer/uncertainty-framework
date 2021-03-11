@@ -3,7 +3,9 @@ import numpy as np
 from numpy import random
 from joblib import Parallel, delayed
 
-class MonteCarlo:
+from uncertainty_framework.simulators._simulator import Simulator
+
+class MonteCarlo(Simulator):
     def __init__(
         self,
         func: Union[str, Callable],
@@ -17,6 +19,8 @@ class MonteCarlo:
         [Description]
 
         """
+        super(MonteCarlo, self).__init__()
+
         # set the parameters
         self.num_iter = num_iter
         self.n_jobs = n_jobs
@@ -112,9 +116,6 @@ class MonteCarlo:
         # finished - return the result
         return result
             
-    def __call__(self, num_iter: Union[int, None] =None) -> np.ndarray:
-        return self.run(num_iter=num_iter)
-
 
 if __name__ == '__main__':
     import fire
