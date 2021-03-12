@@ -30,14 +30,15 @@ class PlotReport(MarginReport):
 
         # adjust the legend
         fig.update_layout(
-            template='plotly_dark',
+            template=kwargs.get('template', 'plotly_dark'),
             legend=dict(
                 yanchor='bottom',
-                xanchor='left',
-                x=0.05,
+                xanchor='right',
+                x=1.,
                 y=1.05,
                 orientation='h'
-            )
+            ),
+            title=kwargs.get('title', 'Monte-Carlo simulation result')
         )
 
         # saving not supported yet
