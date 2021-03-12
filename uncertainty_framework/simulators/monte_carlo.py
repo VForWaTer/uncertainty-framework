@@ -2,6 +2,7 @@ from typing import Union, Callable, List, Tuple
 import numpy as np
 from numpy import random
 from joblib import Parallel, delayed
+from tqdm import tqdm
 
 from uncertainty_framework.simulators._simulator import Simulator
 
@@ -106,9 +107,14 @@ class MonteCarlo(Simulator):
             # save result
             result[i] = self.func(**par)
 
-        # create the parallel worker and parameter generator
+        # create the parallel worker
         parallel_worker = Parallel(n_jobs=self.n_jobs, require='sharedmem')
-        func_gen = (delayed(wrap)(param) for param in params)
+
+        # create verbose or non verbose parameter generator
+        if self._kwargs.get('verbose', False):
+            func_gen = (delayed(wrap)(param) for param in params)
+        else:
+            func_gen = (delayed(wrap)(param) for param in tqdm(params, total=self.num_iter))
         
         # run the job in parallel
         parallel_worker(func_gen)
