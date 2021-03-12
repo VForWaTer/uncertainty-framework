@@ -4,3 +4,4 @@ joblib
 fire
 plotly
 kaleido
+tabulate
