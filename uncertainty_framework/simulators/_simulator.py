@@ -1,8 +1,9 @@
 import abc
-from typing import Type
+from typing import Type, Union
 import numpy as np
 
 from uncertainty_framework.report._report import Report as ReportBaseClass
+from uncertainty_framework.report.margins import MarginReport
 
 
 class Simulator(abc.ABC):
@@ -25,7 +26,7 @@ class Simulator(abc.ABC):
         self.result = self.run(**kwargs)
         return self.result
 
-    def render(self, Report: Type[ReportBaseClass], result: np.ndarray =None, **kwargs):
+    def render(self, Report: Union[Type[ReportBaseClass], str] ='margin', result: np.ndarray =None, **kwargs):
         """
         Render the results with the given class
         """
@@ -37,6 +38,10 @@ class Simulator(abc.ABC):
             result = self.result
         if result is None:
             raise RuntimeError("No simulation result found. Call this instance or pass the result matrix.")
+        
+        # load a predefined Report class
+        if isinstance(Report, str) and Report == 'margin':
+            Report = MarginReport
         
         # instantiate a report
         report = Report(result=result)

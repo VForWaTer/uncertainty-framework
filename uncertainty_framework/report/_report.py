@@ -4,7 +4,7 @@ import numpy as np
 class Report(abc.ABC):
     """Base class for all Reports"""
     def __init__(self, result: np.ndarray):
-        pass
+        self.result = result
     
     @abc.abstractmethod
     def render(self, **kwargs):

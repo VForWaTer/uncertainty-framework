@@ -75,7 +75,7 @@ def plot(result):
 
 
 # Main function
-def main(data_path=os.path.join(PATH, 'sample.csv'), num_iter=5000, obs_scale=5, verbose=False, **kwargs):
+def main(data_path=os.path.join(PATH, 'sample.csv'), num_iter=5000, obs_scale=5, verbose=False, render='margin', **kwargs):
     if verbose:
         print('Building job...', end='')
     # get data
@@ -112,9 +112,8 @@ def main(data_path=os.path.join(PATH, 'sample.csv'), num_iter=5000, obs_scale=5,
     if verbose:
         print('done. [%s]' % '%.1f%s' % (((t2 - t1) * 1000, 'ms') if t2 - t1 < 4 else (t2 - t1, 'sec')))
 
-    # plot the result
-    fig = plot(result)
-    fig.show()
+    # render the result
+    return mc.render(render, result)
 
 
 if __name__=='__main__':
