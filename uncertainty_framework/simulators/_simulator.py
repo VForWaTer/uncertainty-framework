@@ -4,6 +4,7 @@ import numpy as np
 
 from uncertainty_framework.report._report import Report as ReportBaseClass
 from uncertainty_framework.report.margins import MarginReport
+from uncertainty_framework.report.console import ConsoleReport
 
 
 class Simulator(abc.ABC):
@@ -26,7 +27,7 @@ class Simulator(abc.ABC):
         self.result = self.run(**kwargs)
         return self.result
 
-    def render(self, Report: Union[Type[ReportBaseClass], str] ='margin', result: np.ndarray =None, **kwargs):
+    def render(self, Report: Union[Type[ReportBaseClass], str] ='console', result: np.ndarray =None, **kwargs):
         """
         Render the results with the given class
         """
@@ -40,8 +41,13 @@ class Simulator(abc.ABC):
             raise RuntimeError("No simulation result found. Call this instance or pass the result matrix.")
         
         # load a predefined Report class
-        if isinstance(Report, str) and Report == 'margin':
-            Report = MarginReport
+        if isinstance(Report, str):
+            if Report.lower() == 'margin':
+                Report = MarginReport
+            elif Report.lower() == 'console':
+                Report = ConsoleReport
+            else:
+                raise ValueError("'%s' is not a known Report option." % Report)
         
         # instantiate a report
         report = Report(result=result)
