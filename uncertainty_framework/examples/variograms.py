@@ -51,31 +51,8 @@ def get_data(data):
     return data
 
 
-def plot(result):
-    # get the number of lags classes
-    n = result.shape[1]
-    x = np.arange(n)
-    
-    # get the median
-    median = [np.median(result[:,i]) for i in range(n)]
-
-    # get the confidence interval
-    high = [np.percentile(result[:,i], q=95) for i in range(n)]
-    low = [np.percentile(result[:,i], q=5) for i in range(n)]
-
-    fig = go.Figure(data=[
-        go.Scatter(x=x, y=low, mode='lines', line_color='lightsteelblue', name='5% - percentile'),
-        go.Scatter(x=x, y=high, fill='tonexty', mode='lines', line_color='lightsteelblue', name='95% - percentile')
-    ])
-    fig.add_trace(
-        go.Scatter(x=x, y=median, mode='lines', line=dict(color='indigo', width=4), name='median')
-    )
-
-    return fig
-
-
 # Main function
-def main(data_path=os.path.join(PATH, 'sample.csv'), num_iter=5000, obs_scale=5, verbose=False, render='margin', **kwargs):
+def main(data_path=os.path.join(PATH, 'sample.csv'), num_iter=5000, obs_scale=5, verbose=False, render='console', **kwargs):
     if verbose:
         print('Building job...', end='')
     # get data
@@ -113,7 +90,12 @@ def main(data_path=os.path.join(PATH, 'sample.csv'), num_iter=5000, obs_scale=5,
         print('done. [%s]' % '%.1f%s' % (((t2 - t1) * 1000, 'ms') if t2 - t1 < 4 else (t2 - t1, 'sec')))
 
     # render the result
-    return mc.render(render, result)
+    rendered_result = mc.render(render, result, **kwargs)
+    if isinstance(rendered_result, go.Figure):
+        rendered_result.show()
+        return
+    else:
+        return rendered_result
 
 
 if __name__=='__main__':
