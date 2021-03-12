@@ -5,6 +5,7 @@ import numpy as np
 from uncertainty_framework.report._report import Report as ReportBaseClass
 from uncertainty_framework.report.margins import MarginReport
 from uncertainty_framework.report.console import ConsoleReport
+from uncertainty_framework.report.plot import PlotReport
 
 
 class Simulator(abc.ABC):
@@ -46,6 +47,8 @@ class Simulator(abc.ABC):
                 Report = MarginReport
             elif Report.lower() == 'console':
                 Report = ConsoleReport
+            elif Report.lower() == 'plot':
+                Report = PlotReport
             else:
                 raise ValueError("'%s' is not a known Report option." % Report)
         
