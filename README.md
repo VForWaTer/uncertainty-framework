@@ -7,6 +7,14 @@ Framework for propagating uncertainties through V-FOR-WaTer
 pip install uncertainty-framework
 ```
 
+or from Github for development:
+
+```bash
+git clone https://github.com/vforwater/uncertainty-framework
+cd uncertainty-framework
+pip install -e .
+```
+
 ## Examples
 
 The examples are implemeted as a python module. The main function imports `fire` to 
